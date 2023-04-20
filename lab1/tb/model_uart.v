@@ -21,7 +21,10 @@ module model_uart(/*AUTOARG*/
    event     evTxByte;
    reg       TX;
 	integer counter;
-	reg [3:0] out;
+	reg [7:0] out0;
+	reg [7:0] out1;
+	reg [7:0] out2;
+	reg [7:0] out3;
 
    initial
      begin
@@ -40,12 +43,29 @@ module model_uart(/*AUTOARG*/
              rxData[7:0] = {RX,rxData[7:1]};
           end
         ->evByte;
-		  out[counter % 4] = rxData;
-		  counter = counter + 1;
-		  //$display ("Counter is %d", counter);
-		  if (counter % 4 == 0)
+		  //out[(counter % 4) * 8] = rxData;
+		  if (counter % 6 == 0)
 			begin
-				$display ("OUTPUT%d %s Received(%b%b%b%b)", $stime, name, out[3], out[2], out[1], out[0]);
+				out0 = rxData;
+			end
+			if (counter % 6 == 1)
+			begin
+				out1 = rxData;
+			end
+			if (counter % 6 == 2)
+			begin
+				out2 = rxData;
+			end
+			if (counter % 6 == 3)
+			begin
+				out3 = rxData;
+			end
+		  counter = counter + 1;
+		  
+		  //$display ("Counter is %d", counter);
+		  if (counter % 6 == 0)
+			begin
+				$display ("OUTPUT%d %s Received(%s%s%s%s)", $stime, name, out0, out1, out2, out3);
 			end
      end
 
