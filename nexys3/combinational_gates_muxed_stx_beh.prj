@@ -1,0 +1,2 @@
+verilog isim_temp "../../../Downloads/lab0_src/lab0_src/part-1/combinational_gates_muxed.v"
+verilog isim_temp "C:/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v"

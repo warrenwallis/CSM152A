@@ -1,0 +1,15 @@
+xst -intstyle ise -ifn "C:/Users/Student/Desktop/152alab10am/lab0/clk1hz.xst" -ofn "C:/Users/Student/Desktop/152alab10am/lab0/clk1hz.syr" 
+xst -intstyle ise -ifn "C:/Users/Student/Desktop/152alab10am/lab0/clk1hz.xst" -ofn "C:/Users/Student/Desktop/152alab10am/lab0/clk1hz.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc C:/Users/Student/Desktop/152alab10am/src0/combinational_gates/combinational_gates_muxed.ucf -p xc6slx16-csg324-3 clk1hz.ngc clk1hz.ngd  
+map -intstyle ise -p xc6slx16-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o clk1hz_map.ncd clk1hz.ngd clk1hz.pcf 
+par -w -intstyle ise -ol high -mt off clk1hz_map.ncd clk1hz.ncd clk1hz.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml clk1hz.twx clk1hz.ncd -o clk1hz.twr clk1hz.pcf 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc C:/Users/Student/Desktop/152alab10am/src0/combinational_gates/combinational_gates_muxed.ucf -p xc6slx16-csg324-3 clk1hz.ngc clk1hz.ngd  
+map -intstyle ise -p xc6slx16-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o clk1hz_map.ncd clk1hz.ngd clk1hz.pcf 
+par -w -intstyle ise -ol high -mt off clk1hz_map.ncd clk1hz.ncd clk1hz.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml clk1hz.twx clk1hz.ncd -o clk1hz.twr clk1hz.pcf 
+xst -intstyle ise -ifn "C:/Users/Student/Desktop/152alab10am/lab0/clk1hz.xst" -ofn "C:/Users/Student/Desktop/152alab10am/lab0/clk1hz.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc C:/Users/Student/Desktop/152alab10am/src0/combinational_gates/combinational_gates_muxed.ucf -p xc6slx16-csg324-3 clk1hz.ngc clk1hz.ngd  
+map -intstyle ise -p xc6slx16-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o clk1hz_map.ncd clk1hz.ngd clk1hz.pcf 
+par -w -intstyle ise -ol high -mt off clk1hz_map.ncd clk1hz.ncd clk1hz.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml clk1hz.twx clk1hz.ncd -o clk1hz.twr clk1hz.pcf 

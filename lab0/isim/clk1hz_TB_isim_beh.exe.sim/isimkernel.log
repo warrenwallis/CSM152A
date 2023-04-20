@@ -1,0 +1,29 @@
+Command line:
+   clk1hz_TB_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  59328
+
+Thu Apr 06 11:57:47 2023
+
+
+ Elaboration Time: 0.6875 sec
+
+ Current Memory Usage: 5806.48 Meg
+
+ Total Signals          : 15
+ Total Nets             : 15
+ Total Signal Drivers   : 7
+ Total Blocks           : 3
+ Total Primitive Blocks : 2
+ Total Processes        : 11
+ Total Traceable Variables  : 21
+ Total Scalar Nets and Variables : 129
+Total Line Count : 25
+
+ Total Simulation Time: 1.03125 sec
+
+ Current Memory Usage: 5806.48 Meg
+
+Thu Apr 06 11:57:48 2023
+

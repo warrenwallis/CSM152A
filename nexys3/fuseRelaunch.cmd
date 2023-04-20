@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "C:/Users/Student/Desktop/152alab10am/nexys3/combinational_gates_muxed_isim_beh.exe" -prj "C:/Users/Student/Desktop/152alab10am/nexys3/combinational_gates_muxed_beh.prj" "work.combinational_gates_muxed" "work.glbl" 
