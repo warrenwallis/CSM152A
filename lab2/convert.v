@@ -23,6 +23,7 @@ module convert (
       abs <= analog[11:0];
     end
     else begin
+      s <= 1;
       for (integer i = 0; i < 11; i += 1) begin
         count += analog[i]
       end
@@ -33,4 +34,5 @@ module convert (
         abs = ~D + 1;
       end
     end
+    $display ("Output: Sign: %b Abs: %12b", sign, abs);
   end
