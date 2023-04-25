@@ -15,18 +15,21 @@ module model_uart(/*AUTOARG*/
    parameter name    = "UART0";
    
    reg [7:0] rxData;
-   reg [31:0] totRxData;
-   reg [2:0] temp_val;
    event     evBit;
    event     evByte;
    event     evTxBit;
    event     evTxByte;
    reg       TX;
+	integer counter;
+	reg [7:0] out0;
+	reg [7:0] out1;
+	reg [7:0] out2;
+	reg [7:0] out3;
 
    initial
      begin
         TX = 1'b1;
-        temp_val = 3'b0;
+		  counter = 0;
      end
    
    always @ (negedge RX)
@@ -40,19 +43,32 @@ module model_uart(/*AUTOARG*/
              rxData[7:0] = {RX,rxData[7:1]};
           end
         ->evByte;
-        if (temp_val <= 3) begin
-            totRxData = totRxData<<8;
-            totRxData[7:0] = rxData[7:0];
-        end
-        
-        temp_val = temp_val + 1;
-        if (temp_val == 4) begin
-            $display ("%d %s Received byte %02x (%s)", $stime, name, totRxData, totRxData);
-        end
-        if (temp_val == 6) begin
-            temp_val = 0;
-        end
+		  //out[(counter % 4) * 8] = rxData;
+		  if (counter % 6 == 0)
+			begin
+				out0 = rxData;
+			end
+			if (counter % 6 == 1)
+			begin
+				out1 = rxData;
+			end
+			if (counter % 6 == 2)
+			begin
+				out2 = rxData;
+			end
+			if (counter % 6 == 3)
+			begin
+				out3 = rxData;
+			end
+		  counter = counter + 1;
+		  
+		  //$display ("Counter is %d", counter);
+		  if (counter % 6 == 0)
+			begin
+				$display ("OUTPUT%d %s Received(%s%s%s%s)", $stime, name, out0, out1, out2, out3);
+			end
      end
+
    task tskRxData;
       output [7:0] data;
       begin
