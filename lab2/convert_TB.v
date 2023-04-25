@@ -30,3 +30,4 @@ module tb;
       analog = in;
     end
   endtask
+endmodule
