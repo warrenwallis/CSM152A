@@ -2,7 +2,7 @@ module convert (
   // outputs
   sign, abs,
   // inputs
-  analog, clk
+  analog, clk, on
   );
   
   output [11:0] abs; // MSB to LSB
@@ -10,30 +10,34 @@ module convert (
   
   input [11:0] analog;
   input clk;
+  input on;
   
-  int count;
+  reg abs;
+  reg sign;
+  integer count;
+  integer i;
   
   initial begin
     count = 0;
   end
   
-  always @ (posedge clk) begin
+  always @ (posedge clk && on == 1) begin
     if (analog[11] == 0) begin
       sign <= 0;
       abs <= analog[11:0];
     end
     else begin
-      s <= 1;
-      for (integer i = 0; i < 11; i = i + 1) begin
+      sign <= 1;
+      for (i = 0; i < 11; i = i + 1) begin
         count = count + analog[i];
       end
       if (count == 0) begin // means we have -2048
-        abs = { analog[11:1], 1 };
+        abs <= { analog[11:1], 1 };
       end
       else begin
-        abs = ~D + 1;
+        abs <= ~analog + 1;
       end
     end
-    $display ("Output: Sign: %b Abs: %12b", sign, abs);
+    $display ("Output: Sign: %0b Abs: %0b", sign, abs);
   end
  endmodule
