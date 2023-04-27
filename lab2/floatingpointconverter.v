@@ -27,7 +27,8 @@ module absoluteConverter(
     always @(D) begin
         sign = D[11];
         if (D == 12'b100000000000)
-            // change it to -2047 which is the closest number that can be converted
+            // closest value that can be converted is -2047
+            // the resulting absolute value will then 2047
             absolute_magnitude = 12'b011111111111; 
         else if (D[11] == 1)
             absolute_magnitude = ~(D) + 1;
