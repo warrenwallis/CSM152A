@@ -43,6 +43,7 @@ module counter (
         end
       end
     end
+    $display("Stopwatch Output: %s:%s", min, sec);
   end
   
 endmodule
