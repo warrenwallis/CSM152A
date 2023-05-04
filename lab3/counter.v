@@ -21,9 +21,14 @@ module counter (
     end
     if (pse == 0) begin // pause is off
       if (adj) begin // adjustment mode
-        sec = sec + 2;
-        if (sec >= 60) begin
-          sec = sec % 60 + 2; // sec could either be 0 or 1
+        if (sel) begin // second is selected
+          sec = sec + 2;
+          if (sec >= 60) begin
+            sec = sec % 60 + 2; // sec could either be 0 or 1
+            min = min % 60 + 2; // min could overflow and either be an odd or even number
+          end
+        end
+        else begin
           min = min % 60 + 2; // min could overflow and either be an odd or even number
         end
       end
