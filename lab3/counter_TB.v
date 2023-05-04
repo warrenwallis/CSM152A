@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps;
+`timescale 1ns / 1ps
 
 module counter_TB;
   
@@ -18,7 +18,7 @@ module counter_TB;
     #60 send (0, 0, 0, 0);
     
     #1000;
-    finish;
+    $finish;
   end
   
   always #5 clk = ~clk;
