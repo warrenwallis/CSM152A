@@ -41,7 +41,7 @@ module counter_TB;
       adj = a;
       rst = r;
       pse = p;
-      $display("Sending select: %i, adjust: %i, reset: %i, pause: %i", s, a, r, p);
+      $display("Sending select: %d, adjust: %d, reset: %d, pause: %d", s, a, r, p);
     end
   endtask
   
