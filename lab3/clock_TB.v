@@ -15,12 +15,16 @@ module clock_TB;
     tst = 1;
     count = 0;
     
+    #1 send();
+    #2 send();
+    #10 send();
+    
     #1000;
     $finish;
   end
   
-  always #5 clk = ~clk;
-  awlays #5 counter = counter + 1;
+  always #1 clk = ~clk;
+  always #1 counter = counter + 1;
   
   clock clock0_ (
     .one (one),
