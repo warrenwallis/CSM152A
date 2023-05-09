@@ -36,5 +36,6 @@ module clock_TB;
       faster = f;
       $display("Time %d", count);
     end
+  endtask
     
 endmodule
