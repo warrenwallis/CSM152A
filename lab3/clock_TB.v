@@ -29,7 +29,7 @@ module clock_TB;
     .tst (tst);
   );
   
-  task send
+  task send;
     begin
       one = o;
       two = t;
