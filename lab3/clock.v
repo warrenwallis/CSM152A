@@ -12,18 +12,22 @@ module clock (
   input clk;
   
   integer count;
+  integer freq;
   
   initial begin
     count = 0;
+    freq = 100000000; // master clock frequency
   end
   
   always @ (posedge clk) begin
-    count = count + 1;
-    one = clk;
-    if (count % 2 == 0) begin
+    count = (count + 1) % freq;
+    if (count % freq == 0) begin
+      one = clk;
+    end
+    if (count % (freq/2) == 0) begin
       two = clk;
     end
-    if (count % 50) begin
+    if (count % (freq/100) == 0) begin
       faster = clk;
     end
     if (tst) begin
