@@ -29,5 +29,6 @@ module clock (
     if (tst) begin
       $display("Clocks one: %d, two: %d, faster %d", one, two, faster);
     end
+  end
 endmodule
     
