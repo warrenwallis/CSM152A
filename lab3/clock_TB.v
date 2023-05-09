@@ -23,10 +23,10 @@ module clock_TB;
   awlays #5 counter = counter + 1;
   
   clock clock0_ (
-    .one (one);
-    .two (two);
-    .faster (faster);
-    .tst (tst);
+    .one (one),
+    .two (two),
+    .faster (faster),
+    .tst (tst)
   );
   
   task send;
