@@ -2,7 +2,7 @@ module clock (
   // outputs
   one, two, faster,
   // inputs
-  clk
+  clk, tst
 );
   
   output one;
@@ -25,6 +25,9 @@ module clock (
     end
     if (count % 50) begin
       faster = clk;
+    end
+    if (tst) begin
+      $display("Clocks one: %d, two: %d, faster %d", one, two, faster);
     end
 endmodule
     
