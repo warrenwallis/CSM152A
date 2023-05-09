@@ -16,7 +16,7 @@ module clock (
   
   initial begin
     count = 0;
-    freq = 100000000; // master clock frequency
+    freq = 1000000000; // master clock frequency
   end
   
   always @ (posedge clk) begin
