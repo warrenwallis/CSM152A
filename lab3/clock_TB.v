@@ -1,45 +1,39 @@
-`timescale 1ns/ 1ps
+`timescale 1ns/ 1ns
 
 module clock_TB;
   
-  reg one;
-  reg two;
-  reg faster;
-  reg clk;
-  reg tst;
-  
-  integer count;
-  
-  initial begin
-    clk = 0;
-    tst = 1;
-    count = 0;
+    reg clk;
+    wire one;
+    wire two;
+    wire faster;
     
-    #1 send();
-    #2 send();
-    #10 send();
+    clock sim_clk(
+        .clk(clk),
+        .one(one),
+        .two(two),
+        .faster(faster)
+    );
     
-    #1000;
-    $finish;
-  end
-  
-  always #1 clk = ~clk;
-  always #1 counter = counter + 1;
-  
-  clock clock0_ (
-    .one (one),
-    .two (two),
-    .faster (faster),
-    .tst (tst)
-  );
-  
-  task send;
-    begin
-      one = o;
-      two = t;
-      faster = f;
-      $display("Time %d", count);
+    always #5 clk = ~clk; // produces a clockthat toggles every 10ns -> 100 000 000 Hz
+    
+    always @ (posedge one or posedge two or posedge faster) begin
+        if (one) begin
+            $display("1Hz clock is high");
+        end
+        
+        if (two) begin
+            $display("2Hz clock is high");
+        end
+        
+        if (faster) begin
+            $display("100Hz clock is high");
+        end
     end
-  endtask
+    
+    initial begin
+        $display($time, " << Starting the Simulation >>");
+        clk = 0;
+        #1000000000 $finish;
+    end
     
 endmodule

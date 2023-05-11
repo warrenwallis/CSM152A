@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2023-04-06T16:03:52</DateModified>
+  <DateModified>2023-05-09T11:26:53</DateModified>
   <ModuleName>combinational_gates_muxed_tb</ModuleName>
   <SummaryTimeStamp>2023-04-06T15:48:43</SummaryTimeStamp>
   <SavedFilePath>C:/Users/Student/Desktop/152alab10am/nexys3/iseconfig/combinational_gates_muxed_tb.xreport</SavedFilePath>

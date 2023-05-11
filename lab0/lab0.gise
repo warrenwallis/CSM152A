@@ -148,7 +148,7 @@
       <outfile xil_pn:name="../src0/combinational_gates/combinational_gates_muxed.v"/>
       <outfile xil_pn:name="../src0/combinational_gates/combinational_gates_muxed_TB.v"/>
     </transform>
-    <transform xil_pn:end_ts="1680807206" xil_pn:in_ck="-8043543046999065937" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7030857203273870735" xil_pn:start_ts="1680807204">
+    <transform xil_pn:end_ts="1683656865" xil_pn:in_ck="-8043543046999065937" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7030857203273870735" xil_pn:start_ts="1683656862">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
@@ -160,7 +160,7 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1680807206" xil_pn:in_ck="148785637267042310" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="9190860062840235101" xil_pn:start_ts="1680807206">
+    <transform xil_pn:end_ts="1683656865" xil_pn:in_ck="148785637267042310" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="9190860062840235101" xil_pn:start_ts="1683656865">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
