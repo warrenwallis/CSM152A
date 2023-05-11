@@ -32,6 +32,7 @@ module clock (
       faster = 0;
     end
     
+    // hacker came here
   end
 endmodule
     
