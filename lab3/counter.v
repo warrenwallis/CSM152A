@@ -1,59 +1,55 @@
 module counter (
-  // outputs
-  sec, min,
-  // inputs
-  clk, sel, adj, rst, pse, tst
+    input clk,
+    input adj,
+    input sel,
+    input rst,
+    input pse,
+    output reg sec,
+    output reg min
 );
-  
-  output reg sec;
-  output reg min;
-  
-  input clk;
-  input sel;
-  input adj;
-  input rst;
-  input pse;
-  input tst;
-
-  integer step;
-
-  initial begin
-    sec = 0;
-    min = 0;
-    step = 0;
-  end
-  
-  always @ (posedge clk) begin
-    step = step + 1;
-    if (rst) begin // reset is pressed
-      sec = 0;
-      min = 0;
-    end
-    if (pse == 0) begin // pause is off
-      if (adj) begin // adjustment mode
-        if (sel) begin // second is selected
-          sec = sec + 2;
-          if (sec >= 60) begin
-            sec = (sec + 2) % 60; // sec could either be 0 or 1
-            min = (min + 2) % 60; // min could overflow and either be an odd or even number
-          end
+    initial sec = 0;
+    initial min = 0;
+    
+    always @ (posedge clk or posedge rst) begin
+             
+        if (rst == 1'b1) begin // reset is pressed
+            sec = 0;
+            min = 0;
         end
+        
         else begin
-          min = (min + 2) % 60; // min could overflow and either be an odd or even number
+            if (pse == 0'b1) begin
+                // ADJ is LOW, stopwatch behaves normally
+                if (adj == 0'b1) begin
+                    sec = sec + 1;
+                    if (sec >= 60) begin
+                        sec = 0;
+                        min = min + 1;
+                        if (min >= 60) begin
+                            min = 0;
+                        end
+                    end
+                end
+                // ADJ is HIGH, only increase selected digit
+                else begin
+                    if (sel == 0'b1) begin
+                        // min selected
+                        min = min + 1;
+                        if (min >= 60) begin
+                            min = 0;
+                        end
+                    end
+                    else begin
+                        // sec selected
+                        sec = sec + 1;
+                        if (sec >= 60) begin
+                            min = 0;
+                        end
+                    end
+                    
+                end
+            end
         end
-      end
-      else begin // normal increment
-        sec = sec + 1;
-        if (sec == 60) begin
-          sec = 0;
-          min = (min + 1) % 60;
-        end
-      end
     end
-
-    if (tst) begin
-      $display("Stopwatch Output at step %d: %d:%d", step, min, sec);
-    end
-  end
-  
+    
 endmodule
