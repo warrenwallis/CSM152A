@@ -2,8 +2,8 @@ module counter (
     input clk,
     input adj,
     input sel,
-    input rst,
     input pse,
+    input rst,
     output reg sec,
     output reg min
 );
