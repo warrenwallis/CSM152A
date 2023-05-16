@@ -6,7 +6,7 @@ module clock_selector(
     );
 
     always @* begin
-        if (adjust == 0'b1) begin
+        if (adjust == 1'b0) begin
             assign counter_clk = one;
         end
         else begin

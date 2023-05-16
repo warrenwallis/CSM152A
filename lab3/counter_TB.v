@@ -1,57 +1,48 @@
-`timescale 1ns / 1ps
+`timescale 10ns / 10ns
 
 module counter_TB;
   
-  reg sec;
-  reg min;
+  // inputs
   reg clk;
-  reg sel;
   reg adj;
-  reg rst;
+  reg sel;
   reg pse;
-  reg tst;
+  reg rst;
+  
+  // outputs
+  wire [5:0] sec;
+  wire [5:0] min;
+  
+  // Instantiate counter module
+  counter counter_ (
+    .clk (clk),
+    .adj (adj),
+    .sel (sel),
+    .pse (pse),
+    .rst (rst),
+    .sec (sec),
+    .min (min)
+  );
+  
+  // generate clock
+  always #1 clk = ~clk;
   
   initial begin
     clk = 0;
-    tst = 1;
+    adj = 0;
+    sel = 0;
+    pse = 0;
+    rst = 0;
     
-    #5 send(0, 0, 0, 0);
-    #20 send(0, 0, 0, 1);
-    #30 send(0, 0, 0, 0);
-    #45 send(0, 1, 0, 0);
-    #60 send(0, 0, 0, 0);
-    #70 send(1, 1, 0, 0);
-    #80 send(0, 0, 0, 0);
     
-    #1000;
-    $finish;
+    #10; // allow some time for initialization
+    
+    // TEST 1: normal clock operation for 100s
+    #100;
+    
+    
+    
+    #1000 $finish;
   end
-  
-  always #5 clk = ~clk;
-  
-  counter counter0_ (
-    .sec (sec),
-    .min (min),
-    .clk (clk),
-    .sel (sel),
-    .adj (adj),
-    .rst (rst),
-    .pse (pse),
-    .tst (tst)
-  );
-  
-  task send;
-    input s;
-    input a;
-    input r;
-    input p;
-    begin
-      sel = s;
-      adj = a;
-      rst = r;
-      pse = p;
-      $display("Sending select: %d, adjust: %d, reset: %d, pause: %d", s, a, r, p);
-    end
-  endtask
   
 endmodule
