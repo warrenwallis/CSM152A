@@ -10,8 +10,10 @@ module counter_TB;
   reg rst;
   
   // outputs
-  wire [5:0] sec;
-  wire [5:0] min;
+  wire [3:0] sec_one;
+  wire [3:0] sec_ten;
+  wire [3:0] min_one;
+  wire [3:0] min_ten;
   
   // Instantiate counter module
   counter counter_ (
@@ -20,8 +22,10 @@ module counter_TB;
     .sel (sel),
     .pse (pse),
     .rst (rst),
-    .sec (sec),
-    .min (min)
+    .sec_one (sec_one),
+    .sec_ten (sec_ten),
+    .min_one (min_one),
+    .min_ten (min_ten)
   );
   
   // generate clock
