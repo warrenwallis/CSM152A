@@ -5,24 +5,30 @@ module clock_TB;
     reg clk;
     wire one;
     wire two;
+    wire four;
     wire faster;
     
     clock sim_clk(
         .clk(clk),
         .one(one),
         .two(two),
+        .four(four),
         .faster(faster)
     );
     
     always #5 clk = ~clk; // produces a clockthat toggles every 10ns -> 100 000 000 Hz
     
-    always @ (posedge one or posedge two or posedge faster) begin
+    always @ (posedge one or posedge two or posedge four or posedge faster) begin
         if (one) begin
             $display("1Hz clock is high");
         end
         
         if (two) begin
             $display("2Hz clock is high");
+        end
+      
+        if (four) begin
+            $display("4Hz clock is high");
         end
         
         if (faster) begin
