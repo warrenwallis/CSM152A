@@ -1,11 +1,25 @@
 module stopwatch(
     input clk,
-    input btns, // For ADJ
-    input btnr, // For SEL
-    input btn2, // For PAUSE
-    input btn3  // For RST
+    input [1:0] sw, // ADJ is sw[1], SEL is sw[0]
+    input btns, // For PAUSE
+    input btnr, // For RESET
 );
-
+    
+    wire pse;
+    wire rst;
+    
+    debouncer debounce_pse(
+        .button(btns),
+        .clk(clk),
+        .button_state(pse)
+    );
+    
+    debouncer debounce_rst(
+        .button(btnr),
+        .clk(clk),
+        .button_state(rst)
+    );
+    
     wire one_hz;
     wire two_hz;
     wire fast_hz;
@@ -18,33 +32,30 @@ module stopwatch(
         .faster(fast_hz)
     );
     
-    reg adj;
-    reg sel;
-    reg pse;
-    wire rst; // rst state should not be saved
-    
-    // do debouncer stuff to assign the respective registers according to button input
-    
     wire counter_clk;
     
     clock_selector clk_sel(
         .one(one_hz),
         .two(two_hz),
-        .adj(btns),
+        .adj(sw[1]),
         .counter_clk(counter_clk)
     );
     
-    reg sec;
-    reg min;
+    reg [3:0] sec_one;
+    reg [3:0] sec_ten;
+    reg [3:0] min_one;
+    reg [3:0] min_one;
     
     counter cnt(
         .clk(counter_clk),
-        .adj(adj),
-        .sel(sel),
+        .adj(sw[1]),
+        .sel(sw[0]),
         .pse(pse),
         .rst(rst),
-        .sec(sec),
-        .min(min)
+        .sec_one(sec_one),
+        .sec_ten(sec_ten),
+        .min_one(min_one),
+        .min_ten(min_ten),
     );
     
     
