@@ -22,6 +22,7 @@ module stopwatch(
     
     wire one_hz;
     wire two_hz;
+    wire four_hz;
     wire fast_hz;
     
     clock en_clk(
@@ -29,6 +30,7 @@ module stopwatch(
         .rst(btn3),
         .one(one_hz),
         .two(two_hz),
+        .four(four_hz),
         .faster(fast_hz)
     );
     
