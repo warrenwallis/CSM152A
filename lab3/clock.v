@@ -3,6 +3,7 @@ module clock (
   input rst,
   output wire one,
   output wire two,
+  output wire four,
   output wire faster
 );
   
@@ -30,6 +31,13 @@ module clock (
           assign two = clk;
         end else begin
           assign two = 0;
+        end
+      
+        // produces 4Hz clock
+        if (count % (freq/4) == 0) begin
+          assign four = clk;
+        end else begin
+          assign four = 0;
         end
         
         // produces the 100Hz clock
