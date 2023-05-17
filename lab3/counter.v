@@ -14,6 +14,12 @@ module counter (
     initial min_one = 4'b0000;
     initial min_ten = 4'b0000;
     
+    reg paused = 0;
+    
+    always @ (posedge pse) begin
+        paused = ~paused;
+    end
+    
     always @ (posedge clk or posedge rst) begin
              
         if (rst == 1'b1) begin // reset is pressed
@@ -24,7 +30,7 @@ module counter (
         end
         
         else begin
-            if (pse == 1'b0) begin
+            if (paused == 0) begin
                 // ADJ is LOW, stopwatch behaves normally
                 if (adj == 1'b0) begin
                     if (sec_one < 10) begin
