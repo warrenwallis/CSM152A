@@ -1,19 +1,76 @@
-//module display (
-//  //outputs
-//  sec, min,
-//  
-//  //inputs
-//  time
-//);
-//  
-//  output integer sec;
-//  output integer min;
-//  
-//  
-//  input time;
-//  
-//  always @ (posedge clk) begin
-//    
-//  end
-//  
-//endmodule
+module display(
+    input clk_blink,
+    input clk_update,
+    input adj,
+    input sel,
+    input pse,
+    input [3:0] sec_one,
+    input [3:0] sec_ten,
+    input [3:0] min_one,
+    input [3:0] min_ten,
+    output reg [7:0] seven_seg,
+	output reg [3:0] anode_count
+);
+    parameter AN0 = 4'b1110,
+              AN1 = 4'b1101,
+              AN2 = 4'b1011,
+              AN3 = 4'b0111;
+
+    reg [1:0] anode;
+    reg [7:0] sec_one_seg;
+    reg [7:0] sec_ten_seg;
+    reg [7:0] min_one_seg;
+    reg [7:0] min_ten_seg;
+    
+    seven_segment sec_one_display(
+        .digit(sec_one),
+        .seven_seg(sec_one_seg)
+    );
+    
+    seven_segment sec_ten_display(
+        .digit(sec_ten),
+        .seven_seg(sec_ten_seg)
+    );
+    
+    seven_segment min_one_display(
+        .digit(min_one), 
+        .seven_seg(min_one_seg)
+    );
+    
+    seven_segment min_ten_display(
+        .digit(min_ten), 
+        .seven_seg(min_ten_seg)
+    );
+    
+    seven_segment blink_display(
+        .digit(4'b1111), 
+        .seven_seg(blink_seg)
+    );
+
+    always @ (posedge clk_update) begin
+        if (adj == 0) begin
+            case(anode)
+                2'b00: begin
+                    anode_count = AN0;
+                    seven_seg = sec_one_seg;
+                    anode = anode + 1'b1;
+                    end
+                2'b01: begin
+                    anode_count = AN1;
+                    seven_seg = sec_ten_seg;
+                    anode = anode + 1'b1;
+                    end
+                2'b10: begin
+                    anode_count = AN2;
+                    seven_seg = min_one_seg;
+                    anode = anode + 1'b1;
+                    end
+                2'b11: begin
+                    anode_count = AN3;
+                    seven_seg = min_ten_seg;
+                    anode = 2'b00;
+                    end
+            endcase
+        end
+    end
+endmodule
