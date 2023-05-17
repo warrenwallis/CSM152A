@@ -3,6 +3,8 @@ module stopwatch(
     input [1:0] sw, // ADJ is sw[1], SEL is sw[0]
     input btns, // For PAUSE
     input btnr, // For RESET
+    output reg [7:0] seven_seg,
+	output reg [3:0] anode_count
 );
     
     wire pse;
@@ -60,7 +62,19 @@ module stopwatch(
         .min_ten(min_ten),
     );
     
-    
+    display display_screen(
+        .clk_blink(four_hz),
+        .clk_update(fast_hz),
+        .adj(adj),
+        .sel(sel),
+        .pse(pse),
+        .sec_one(sec_one),
+        .sec_ten(sec_ten),
+        .min_one(min_one),
+        .min_ten(min_ten),
+        .seven_seg(seven_seg),
+        .anode_count(anode_count)
+    );
     
 
 endmodule
