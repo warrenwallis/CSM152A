@@ -48,8 +48,8 @@ module stopwatch(
     reg [3:0] sec_one;
     reg [3:0] sec_ten;
     reg [3:0] min_one;
-    reg [3:0] min_one;
-    
+    reg [3:0] min_ten;
+        
     counter cnt(
         .clk(counter_clk),
         .adj(sw[1]),
@@ -59,7 +59,7 @@ module stopwatch(
         .sec_one(sec_one),
         .sec_ten(sec_ten),
         .min_one(min_one),
-        .min_ten(min_ten),
+        .min_ten(min_ten)
     );
     
     display display_screen(

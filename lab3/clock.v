@@ -1,10 +1,10 @@
 module clock (
   input clk,
   input rst,
-  output wire one,
-  output wire two,
-  output wire four,
-  output wire faster
+  output reg one,
+  output reg two,
+  output reg four,
+  output reg faster
 );
   
   integer count = -1;
@@ -21,30 +21,30 @@ module clock (
         
         // produces the 1Hz clock
         if (count % freq == 0) begin
-          assign one = clk;
+          one = clk;
         end else begin
-          assign one = 0;
+          one = 0;
         end
         
         // produces the 2Hz clock
         if (count % (freq/2) == 0) begin
-          assign two = clk;
+          two = clk;
         end else begin
-          assign two = 0;
+          two = 0;
         end
       
         // produces 4Hz clock
         if (count % (freq/4) == 0) begin
-          assign four = clk;
+          four = clk;
         end else begin
-          assign four = 0;
+          four = 0;
         end
         
         // produces the 100Hz clock
         if (count % (freq/100) == 0) begin
-          assign faster = clk;
+          faster = clk;
         end else begin
-          assign faster = 0;
+          faster = 0;
         end
     end
     
