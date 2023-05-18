@@ -1,7 +1,9 @@
 module seven_segment(
     input [3:0] digit,
-    output reg [7:0] seven_seg
+    output  [7:0] seven_seg_wire
 );
+
+reg [7:0] seven_seg;
 	 
     always @ (*) begin
         case(digit)    
@@ -18,4 +20,7 @@ module seven_segment(
             default: seven_seg = 8'b11111111;
         endcase
     end
+    
+    assign seven_seg_wire = seven_seg;
+    
 endmodule

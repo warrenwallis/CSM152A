@@ -3,8 +3,8 @@ module stopwatch(
     input [1:0] sw, // ADJ is sw[1], SEL is sw[0]
     input btns, // For PAUSE
     input btnr, // For RESET
-    output reg [7:0] seven_seg,
-	output reg [3:0] anode_count
+    output wire [7:0] seg,
+	output wire [3:0] an
 );
     
     wire pse;
@@ -45,10 +45,10 @@ module stopwatch(
         .counter_clk(counter_clk)
     );
     
-    reg [3:0] sec_one;
-    reg [3:0] sec_ten;
-    reg [3:0] min_one;
-    reg [3:0] min_ten;
+    wire [3:0] sec_one;
+    wire [3:0] sec_ten;
+    wire [3:0] min_one;
+    wire [3:0] min_ten;
         
     counter cnt(
         .clk(counter_clk),
@@ -56,10 +56,10 @@ module stopwatch(
         .sel(sw[0]),
         .pse(pse),
         .rst(rst),
-        .sec_one(sec_one),
-        .sec_ten(sec_ten),
-        .min_one(min_one),
-        .min_ten(min_ten)
+        .sec_one_wire(sec_one),
+        .sec_ten_wire(sec_ten),
+        .min_one_wire(min_one),
+        .min_ten_wire(min_ten)
     );
     
     display display_screen(
@@ -72,8 +72,8 @@ module stopwatch(
         .sec_ten(sec_ten),
         .min_one(min_one),
         .min_ten(min_ten),
-        .seven_seg(seven_seg),
-        .anode_count(anode_count)
+        .seven_seg_wire(seg),
+        .anode_count_wire(an)
     );
     
 

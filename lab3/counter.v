@@ -4,17 +4,18 @@ module counter (
     input sel,
     input pse,
     input rst,
-    output reg [3:0] sec_one,
-    output reg [3:0] sec_ten,
-    output reg [3:0] min_one,
-    output reg [3:0] min_ten
+    output  [3:0] sec_one_wire,
+    output  [3:0] sec_ten_wire,
+    output [3:0] min_one_wire,
+    output  [3:0] min_ten_wire
 );
-    initial sec_one = 4'b0000;
-    initial sec_ten = 4'b0000;
-    initial min_one = 4'b0000;
-    initial min_ten = 4'b0000;
     
     reg paused = 0;
+    
+    reg [3:0] sec_one;
+    reg [3:0] sec_ten;
+    reg [3:0] min_one;
+    reg [3:0] min_ten;
     
     always @ (posedge pse) begin
         paused = ~paused;
@@ -93,5 +94,13 @@ module counter (
             end
         end
     end
+//        output  [3:0] sec_one_wire,
+//    output  [3:0] sec_ten_wire,
+//    output [3:0] min_one_wire,
+//    output  [3:0] min_ten_wire
+    assign sec_one_wire = sec_one;
+    assign sec_ten_wire = sec_ten;
+    assign min_one_wire = min_one;
+    assign min_ten_wire = min_ten;
     
 endmodule
