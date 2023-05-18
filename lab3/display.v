@@ -21,9 +21,11 @@ module display(
     wire [7:0] sec_ten_seg;
     wire [7:0] min_one_seg;
     wire [7:0] min_ten_seg;
+    wire [7:0] blink_seg;
     
     reg [7:0] seven_seg;
     reg [3:0] anode_count;
+    integer count = 0;
     
     seven_segment sec_one_display(
         .digit(sec_one),
@@ -81,26 +83,26 @@ module display(
 				case (count)
 					0: begin
 						anode_count = AN0;
-						seven_seg = blink_display;
+						seven_seg = blink_seg;
 						anode = anode + 1'b1;
 					end
 					1: begin
 						anode_count = AN1;
-						seven_seg = blink_display;
+						seven_seg = blink_seg;
 						anode = anode + 1'b1;
 					end
 					2: begin
 						anode_count = AN2;
-						seven_seg = blink_display;
+						seven_seg = blink_seg;
 						anode = anode + 1'b1;
 					end
 					3: begin
 						anode_count = AN3;
-						seven_seg = blink_display;
+						seven_seg = blink_seg;
 						anode = 2'b00;
 					end
 				endcase
-				count = (count + 1) % 4
+				count = (count + 1) % 4;
 			end
 			else begin
 				case (count)
@@ -125,9 +127,9 @@ module display(
 						anode = 2'b00;
 					end
 				endcase
-				count = (count + 1) % 4
+				count = (count + 1) % 4;
 			end
-		else	
+        end
     end
     
     assign seven_seg_wire = seven_seg;

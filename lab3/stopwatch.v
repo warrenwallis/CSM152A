@@ -29,7 +29,7 @@ module stopwatch(
     
     clock en_clk(
         .clk(clk),
-        .rst(btn3),
+        .rst(rst),
         .one(one_hz),
         .two(two_hz),
         .four(four_hz),
@@ -65,8 +65,8 @@ module stopwatch(
     display display_screen(
         .clk_blink(four_hz),
         .clk_update(fast_hz),
-        .adj(adj),
-        .sel(sel),
+        .adj(sw[1]),
+        .sel(sw[0]),
         .pse(pse),
         .sec_one(sec_one),
         .sec_ten(sec_ten),
