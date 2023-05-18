@@ -15,12 +15,20 @@ module display(
               AN1 = 4'b1101,
               AN2 = 4'b1011,
               AN3 = 4'b0111;
-
+	
     reg [1:0] anode;
     reg [7:0] sec_one_seg;
     reg [7:0] sec_ten_seg;
     reg [7:0] min_one_seg;
     reg [7:0] min_ten_seg;
+	
+	integer count;
+	integer blink;
+	
+	initial begin
+		count = 3;
+		blink = 0;
+	end
     
     seven_segment sec_one_display(
         .digit(sec_one),
@@ -49,6 +57,7 @@ module display(
 
     always @ (posedge clk_update) begin
         if (adj == 0) begin
+			count = 0;
             case(anode)
                 2'b00: begin
                     anode_count = AN0;
@@ -72,5 +81,56 @@ module display(
                     end
             endcase
         end
+		else begin // adjust is on
+			count = (count + 1) % clk_update;
+			if (blink) begin // turn off
+				case (count)
+					0: begin
+						anode_count = AN0;
+						seven_seg = blink_display;
+						anode = anode + 1'b1;
+					end
+					1: begin
+						anode_count = AN1;
+						seven_seg = blink_display;
+						anode = anode + 1'b1;
+					end
+					2: begin
+						anode_count = AN2;
+						seven_seg = blink_display;
+						anode = anode + 1'b1;
+					end
+					3: begin
+						anode_count = AN3;
+						seven_seg = blink_display;
+						anode = 2'b00;
+					end
+				endcase
+			end
+			else begin
+				case (count)
+					0: begin
+						anode_count = AN0;
+						seven_seg = sec_one_seg;
+						anode = anode + 1'b1;
+					end
+					1: begin
+						anode_count = AN1;
+						seven_seg = sec_ten_seg;
+						anode = anode + 1'b1;
+					end
+					2: begin
+						anode_count = AN2;
+						seven_seg = min_one_seg;
+						anode = anode + 1'b1;
+					end
+					3: begin
+						anode_count = AN3;
+						seven_seg = min_ten_seg;
+						anode = 2'b00;
+					end
+				endcase
+			end
+		else	
     end
 endmodule
