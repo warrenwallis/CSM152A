@@ -21,14 +21,6 @@ module display(
     reg [7:0] sec_ten_seg;
     reg [7:0] min_one_seg;
     reg [7:0] min_ten_seg;
-	
-	integer count;
-	integer blink;
-	
-	initial begin
-		count = 3;
-		blink = 0;
-	end
     
     seven_segment sec_one_display(
         .digit(sec_one),
@@ -82,8 +74,7 @@ module display(
             endcase
         end
 		else begin // adjust is on
-			count = (count + 1) % clk_update;
-			if (blink) begin // turn off
+			if (clk_blink) begin // turn off
 				case (count)
 					0: begin
 						anode_count = AN0;
@@ -106,6 +97,7 @@ module display(
 						anode = 2'b00;
 					end
 				endcase
+				count = (count + 1) % 4
 			end
 			else begin
 				case (count)
@@ -130,6 +122,7 @@ module display(
 						anode = 2'b00;
 					end
 				endcase
+				count = (count + 1) % 4
 			end
 		else	
     end
