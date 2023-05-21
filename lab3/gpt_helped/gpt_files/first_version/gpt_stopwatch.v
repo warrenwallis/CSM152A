@@ -4,7 +4,11 @@ module Stopwatch (
   input wire pause,     // PAUSE button
   input wire sel,       // SEL switch
   input wire adj,       // ADJ switch
-  output wire [6:0] seg // Seven-segment display
+  output wire clk_1Hz,
+  output wire clk_faster,
+  output wire clk_blink,
+  output reg [6:0] seg, // Seven-segment display
+  output wire [3:0] an_out
 );
 
   // Define constants
