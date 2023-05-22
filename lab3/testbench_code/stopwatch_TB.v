@@ -61,33 +61,31 @@ module stopwatch_tb;
     
     // TEST 2: pause clock
     btns = 1;
-    #1000000000;
+    #2000000000;
 
     // TEST 3: resume clock 
     btns = 0;
-    #1000000000;
+    #3000000000;
 
     // TEST 4: reset clock
     btnr = 1;
-    #1000000000;
+    #4000000000;
 
     // TEST 5: adj mode (sel = 0)
     sw[1] = 1;
     sw[0] = 0;
-    #1000000000;
+    #5000000000;
 
     // TEST 6: adj mode (sel = 1)
     sw[1] = 1;
     sw[0] = 1;
-    #1000000000;
+    #6000000000;
 
     // TEST 6: resume normal operation (sel left on 1)
     sw[1] = 0;
     sw[0] = 1;
-    #1000000000;
-    
-    
-    #1000 $finish;
+    #7000000000;
+    $finish;
   end
   
 endmodule
