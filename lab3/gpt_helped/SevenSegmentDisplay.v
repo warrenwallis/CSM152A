@@ -35,15 +35,15 @@ module SevenSegmentDisplay (
         an_out <= 4'b1110;   // Enable the leftmost digit
       end
       2'b01: begin
-        seg_out <= SEG_PATTERN[data[7:4]];
+        seg_out <= SEG_PATTERN[data[3:0]];
         an_out <= 4'b1101;   // Enable the second digit from the left
       end
       2'b10: begin
-        seg_out <= SEG_PATTERN[data[11:8]];
+        seg_out <= SEG_PATTERN[data[3:0]];
         an_out <= 4'b1011;   // Enable the second digit from the right
       end
       2'b11: begin
-        seg_out <= SEG_PATTERN[data[15:12]];
+        seg_out <= SEG_PATTERN[data[3:0]];
         an_out <= 4'b0111;   // Enable the rightmost digit
       end
     endcase
