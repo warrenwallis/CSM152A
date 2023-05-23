@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module ClockModule_TB;
+module Clock_TB;
 
     // inputs
     reg clk;
@@ -11,7 +11,7 @@ module ClockModule_TB;
     wire clk_faster;
     wire clk_blink;
 
-    ClockModule cm (
+    Clock cm (
         .clk            (clk),
         .clk_1hz        (clk_1hz),
         .clk_2hz        (clk_2hz),

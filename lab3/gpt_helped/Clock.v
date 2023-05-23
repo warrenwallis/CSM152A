@@ -1,4 +1,4 @@
-module ClockModule (
+module Clock (
   input wire clk,
   output reg clk_1hz,
   output reg clk_2hz,
