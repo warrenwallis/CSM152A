@@ -12,7 +12,7 @@ module Stopwatch (
 
     // define constants
     localparam MAX_MIN = 60;
-    localparam MAX_SEC = 60;
+    localparam MAX_SEC = 59;
     localparam zero = 8'b11000000;
     localparam one = 8'b11111001;
     localparam two = 8'b10100100;
