@@ -4,10 +4,10 @@ module Stopwatch (
     input wire pse,
     input wire adj,
     input wire sel,
-    reg [3:0] min_ten,
-    reg [3:0] min_one,
-    reg [3:0] sec_ten,
-    reg [3:0] sec_one
+    output reg [3:0] min_ten,
+    output reg [3:0] min_one,
+    output reg [3:0] sec_ten,
+    output reg [3:0] sec_one
 );
 
     // define constants
