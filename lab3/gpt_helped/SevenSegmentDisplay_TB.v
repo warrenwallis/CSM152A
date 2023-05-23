@@ -41,4 +41,5 @@ module SevenSegmentDisplay_TB ();
     begin
       $display("seven output: %b, on an_out: %b", seg_out, an_out);
     end
+  endtask
 endmodule
