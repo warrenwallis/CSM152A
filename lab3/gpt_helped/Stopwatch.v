@@ -4,10 +4,8 @@ module Stopwatch (
     input wire pse,
     input wire adj,
     input wire sel,
-    output reg [3:0] min_ten,
-    output reg [3:0] min_one,
-    output reg [3:0] sec_ten,
-    output reg [3:0] sec_one
+    output wire [6:0] seg_out,
+    output wire [3:0] an_out;
 );
 
     // define constants
@@ -27,6 +25,10 @@ module Stopwatch (
     // define registers
     reg [5:0] counter_sec;
     reg [5:0] counter_min;
+    reg [3:0] min_ten;
+    reg [3:0] min_one;
+    reg [3:0] sec_ten;
+    reg [3:0] sec_one;
 
     initial begin
         // seg_out = 7'b1111111;
@@ -43,12 +45,23 @@ module Stopwatch (
     wire clk_blink;
 
     // initialize ClockModule
-    ClockModule cm (
+    Clock cm (
         .clk        (clk),
         .clk_1hz    (clk_1hz),
         .clk_2hz    (clk_2hz),
         .clk_faster (clk_faster),
         .clk_blink  (clk_blink)
+    );
+
+    // initialize SevenSegmentDisplay
+    SevenSegmentDisplay ssd (
+        .clk        (clk_faster),
+        .min_ten    (min_ten),
+        .min_one    (min_one),
+        .sec_ten    (sec_ten),
+        .sec_one    (sec_one),
+        .seg_out    (seg_out),
+        .an_out     (an_out)
     );
 
     // the order of these always blocks are important since some rely on the same clock
@@ -101,18 +114,18 @@ module Stopwatch (
     //     adjust_display <= adjust_display ^ 7'b1111111;
     // end
 
-    // // handle seven-segment multiplexing
-    // always @ (posedge clk_faster) begin
-    //     case (an_out)
-    //         4'b1110: seg_out <= seconds_display;
-    //         4'b1101: seg_out <= seconds_display;
-    //         4'b1011: seg_out <= minutes_display; 
-    //         4'b0111: seg_out <= minutes_display;
-    //         default: seg_out <= 6'b000000;
-    //     endcase
+    // handle seven-segment multiplexing
+    always @ (posedge clk_faster) begin
+        case (an_out)
+            4'b1110: seg_out <= seconds_display;
+            4'b1101: seg_out <= seconds_display;
+            4'b1011: seg_out <= minutes_display; 
+            4'b0111: seg_out <= minutes_display;
+            default: seg_out <= 6'b000000;
+        endcase
 
-    //     an_out <= (an_out != 4'b0111) ? an_out + 1 : 4'b1110;
-    // end
+        an_out <= (an_out != 4'b0111) ? an_out + 1 : 4'b1110;
+    end
 
     
 

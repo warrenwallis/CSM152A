@@ -1,6 +1,9 @@
 module SevenSegmentDisplay (
   input wire clk,                 // Clock for seven-segment multiplexing
-  input wire [3:0] data,           // Data to be displayed on seven-segment display
+  input wire [3:0] min_ten,
+  input wire [3:0] min_one,
+  input wire [3:0] sec_ten,
+  input wire [3:0] sec_one,
   output reg [6:0] seg_out,        // Seven-segment display output
   output reg [3:0] an_out          // Anode control for multiplexing
 );
