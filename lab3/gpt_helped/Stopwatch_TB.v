@@ -4,6 +4,10 @@ module Stopwatch_TB;
 
     // inputs
     reg clk;
+    reg rst;
+    reg pse;
+    reg adj;
+    reg sel;
 
     // outputs
     wire [3:0] min_ten;
@@ -13,6 +17,10 @@ module Stopwatch_TB;
 
     initial begin
         clk = 0;
+        rst = 0;
+        pse = 0;
+        adj = 0;
+        sel = 0;
 
         #1000;
     end
