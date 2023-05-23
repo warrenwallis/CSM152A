@@ -30,6 +30,13 @@ module SevenSegmentDisplay_TB ();
     out();
   end
   
+  SevenSegmentDisplay ssd (
+    .clk      (clk),
+    .data     (data),
+    .seg_out  (seg_out),
+    .an_out   (an_out)
+  );
+  
   task out;
     begin
       $display("seven output: %b, on an_out: %b", seg_out, an_out);
