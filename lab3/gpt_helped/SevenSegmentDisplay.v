@@ -6,21 +6,26 @@ module SevenSegmentDisplay (
 );
 
   // Define constants
-  localparam SEG_PATTERN = {
-    7'b1000000,  // 0
-    7'b1111001,  // 1
-    7'b0100100,  // 2
-    7'b0110000,  // 3
-    7'b0011001,  // 4
-    7'b0010010,  // 5
-    7'b0000010,  // 6
-    7'b1111000,  // 7
-    7'b0000000,  // 8
-    7'b0010000   // 9
-  };
+  reg [6:0] SEG_PATTERN [9:0];
 
   // Define registers
   reg [1:0] digit_select;
+
+  initial begin
+    seg_out = 7'b0000000;
+    an_out = 4'b0000;
+    digit_select = 2'b00;
+    SEG_PATTERN[0] = 7'b1000000;  // 0
+    SEG_PATTERN[1] = 7'b1111001;  // 1
+    SEG_PATTERN[2] = 7'b0100100;  // 2
+    SEG_PATTERN[3] = 7'b0110000;  // 3
+    SEG_PATTERN[4] = 7'b0011001;  // 4
+    SEG_PATTERN[5] = 7'b0010010;  // 5
+    SEG_PATTERN[6] = 7'b0000010;  // 6
+    SEG_PATTERN[7] = 7'b1111000;  // 7
+    SEG_PATTERN[8] = 7'b0000000;  // 8
+    SEG_PATTERN[9] = 7'b0010000;  // 9
+  end
 
   always @(posedge clk) begin
     digit_select <= digit_select + 1;
