@@ -22,12 +22,14 @@ module clock_tb;
 
     reg clk;
     wire rst;
+    wire clk_200hz = 0;
     wire clk_1khz = 0;
     wire clk_25mhz = 0;
         
     clock_divider uut_(
         .clk(clk),
         .rst(rst),
+        .clk_200hz(clk_200hz),
         .clk_1khz(clk_1khz),
         .clk_25mhz(clk_25mhz)
     );
