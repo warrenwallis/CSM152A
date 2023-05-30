@@ -28,12 +28,6 @@ reg button_state_reg = 0;
 
 reg button_sync1, button_sync2;
 
-//always @(posedge clk)
-//    button_sync1 <= button;
-//
-//always @(posedge clk)
-//    button_sync2 <= button_sync1;
-
 always @ (posedge clk)
 begin
 	button_sync2 = button_sync1;
