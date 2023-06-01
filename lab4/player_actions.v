@@ -23,11 +23,11 @@ module player_actions(
     );
 	 
 	 reg [1:0] reg_state;
-	 reg [7:0] cards [12:0];
+	reg [15:0] cards [12:0];
 
 	// logic here
 	initial begin
-		   cards[0] = "1";
+		   cards[0] = "A";
 		   cards[1] = "2";
 		   cards[2] = "3";
 		   cards[3] = "4";
@@ -36,10 +36,10 @@ module player_actions(
 		   cards[6] = "7";
 		   cards[7] = "8";
 		   cards[8] = "9";
-		   cards[9] = "J";
-		   cards[10] = "Q";
-		   cards[11] = "K";
-		   cards[12] = "A";
+		cards[9] = "10";
+		cards[10] = "J";
+		cards[11] = "Q";
+		cards[12] = "K";
 			// prints a random card from the list
 		  $display("%s", cards[$unsigned($random) % 13]);
 	end
