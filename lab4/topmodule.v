@@ -1,29 +1,44 @@
 module topmodule(
     input clk,
-    input btnS,                 // single-step instruction
-    input btnR,                 // arst
+    input btnS,
+    input btnR,
     input [7:0] sw,
-    output [7:0] led
+    output [7:0] led,
+    output reg[7:0] seg,
+    output reg[3:0] an
     );
 
     wire clk_200hz;
     wire clk_1khz;
     wire clk_25mhz; 
 
-    clock_divider(clk, btnR, clk_200hz, clk_1khz, clk_25mhz);
+    clock_divider clk_divider(clk, btnR, clk_200hz, clk_1khz, clk_25mhz);
 
-    wire debounced_btnS;
+    
+    reg [3:0] number = 4'b0001;
+    wire debounced_btns;
 
-    debouncer(clk, clk_200hz, btnS, debounced_btnS);
-
-    reg led_state = 0;
-
-    always @ (posedge debounced_btnS) begin
-        led_state = ~led_state;
+    debouncer debouncebtns(clk, btnS, debounced_btns);
+    
+    always @ (posedge debounced_btns) begin
+        if (number < 4) begin
+            number = number + 1;
+        end
+        else begin
+            number = 1;
+        end
     end
     
-    assign led[7:0] = sw[7:0];
-//    assign led[7:0] = (led_state == 1) ? 8'b11111111 : 8'b000000000;
-        
+    wire [7:0] number_segment;
+    
+    seven_seg test(number, number_segment);
+    
+    always @ (posedge clk_1khz) begin
+        an <= 4'b1110;
+        seg <= number_segment;
+    end
+    
+    
+    assign led = sw;
 
 endmodule

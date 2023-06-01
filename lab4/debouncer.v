@@ -1,26 +1,22 @@
-module debouncer(
-    input clk,
-    input clk_en,  
-    input button,
-    output debounced_button
-    );
-    
-    wire Q1, Q2, Q2_bar, Q0;
-    
-    my_dff_en d0(clk, clk_en, pb_1, Q0);
-    my_dff_en d1(clk, clk_en, Q0, Q1);
-    my_dff_en d2(clk, clk_en, Q1, Q2);
-    assign Q2_bar = ~Q2;
-    assign pb_out = Q1 & Q2_bar;
-    
-endmodule
+module debouncer(input clk,
+				input button,
+				output reg debounce_btn);
+	
+	reg[15:0] counter;
+	
+	always @ (posedge clk) begin
+			if (button == 1) begin //if the button is pressed, increment a counter
+				counter <= counter + 1;
+				
+				if(counter == 16'hffff) begin //if counter reaches the max value, it means the button has been pressed for a while.
+					debounce_btn <= 1;
+					counter <= 0;
+				end
+			end
+			else begin //otherwise reset the counter
+				debounce_btn <= 0;
+				counter <= 0;
+			end
+	end
 
-// D-flip-flop with clock enable signal for debouncing module 
-module my_dff_en(input DFF_CLOCK, clock_enable, D, output reg Q=0);
-
-    always @ (posedge DFF_CLOCK) begin
-        if(clock_enable==1) 
-            Q <= D;
-    end
-    
 endmodule
