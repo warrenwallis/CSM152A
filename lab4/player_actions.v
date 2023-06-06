@@ -76,7 +76,7 @@ module player_actions(
 			
 			running_total = running_total + card_vals[current_card_index];
 			
-			// this will never run here but is template for how to add to score in the future
+			// this will never run here but is template for how to add to score in general
 			if (running_total > 21) begin
 				// if busting with an unlowered ace
 				if (unlowered_aces > 0) begin
@@ -85,6 +85,34 @@ module player_actions(
 				end else begin
 					state = 1;
 				end
+			end			
+			
+			/* DEAL SECOND CARD */
+			
+			// get a random card from the list
+			current_card_index = $unsigned($random($time)) % 13;
+			current_card_val_reg = cards[current_card_index];
+			
+			// if card is an ace
+			if (current_card_index == 4'b0000) begin
+				unlowered_aces = unlowered_aces + 1;
+			end
+			
+			running_total = running_total + card_vals[current_card_index];
+			
+			// this will never run here but is template for how to add to score in general
+			if (running_total > 21) begin
+				// if busting with an unlowered ace
+				if (unlowered_aces > 0) begin
+					running_total = running_total - 10;
+					unlowered_aces = unlowered_aces - 1;
+				end else begin
+					state = 1;
+				end
+			end
+			
+			if (running_total == 21) begin
+				state = 1;
 			end
 	end
 	
