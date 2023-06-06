@@ -89,6 +89,11 @@ module player_actions(
 	end
 	
 	always @ (posedge debounced_hit) begin
+		// do nothing if turn is over
+		if (state == 1) begin
+			return;
+		end
+	
 		// get a random card from the list
 		current_card_index = $unsigned($random($time)) % 13;
 		current_card_val_reg = cards[current_card_index];
@@ -110,6 +115,11 @@ module player_actions(
 			end else begin
 				state = 1;
 			end
+		end
+		
+		// finish if reached 21
+		if (running_total == 21) begin
+			state = 1;
 		end
 	end
 	
