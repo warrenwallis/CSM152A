@@ -19,32 +19,107 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module player_actions(
-	output [1:0] state
+	input debounced_hit,
+	input debounced_stay,
+	// input player_num, // for multiple players in the future
+	output player_state,
+	output [4:0] score,
+	output [15:0] current_card_val
     );
 	 
-	 reg [1:0] reg_state;
-	reg [15:0] cards [12:0];
+	 reg state = 1'b0;
+	 reg [15:0] cards [12:0];
+	 reg [3:0] card_vals [12:0];
+	 reg [4:0] running_total = 0;
+	 reg [3:0] current_card_index;
+	 reg [15:0] current_card_val_reg;
+	 reg [4:0] unlowered_aces = 0;
 
 	// logic here
 	initial begin
-		   cards[0] = "A";
-		   cards[1] = "2";
-		   cards[2] = "3";
-		   cards[3] = "4";
-		   cards[4] = "5";
-		   cards[5] = "6";
-		   cards[6] = "7";
-		   cards[7] = "8";
-		   cards[8] = "9";
-		cards[9] = "10";
-		cards[10] = "J";
-		cards[11] = "Q";
-		cards[12] = "K";
-			// prints a random card from the list
-		  $display("%s", cards[$unsigned($random) % 13]);
+			cards[0] = "A";
+			cards[1] = "2";
+			cards[2] = "3";
+			cards[3] = "4";
+			cards[4] = "5";
+			cards[5] = "6";
+			cards[6] = "7";
+			cards[7] = "8";
+			cards[8] = "9";
+			cards[9] = "10";
+			cards[10] = "J";
+			cards[11] = "Q";
+			cards[12] = "K";
+			
+			card_vals[0] = 11;
+			card_vals[1] = 2;
+			card_vals[2] = 3;
+			card_vals[3] = 4;
+			card_vals[4] = 5;
+			card_vals[5] = 6;
+			card_vals[6] = 7;
+			card_vals[7] = 8;
+			card_vals[8] = 9;
+			card_vals[9] = 10;
+			card_vals[10] = 10;
+			card_vals[11] = 10;
+			card_vals[12] = 10;
+			
+			// get a random card from the list
+			current_card_index = $unsigned($random($time)) % 13;
+			current_card_val_reg = cards[current_card_index];
+			
+			// if card is an ace
+			if (current_card_index == 4'b0000) begin
+				unlowered_aces = unlowered_aces + 1;
+			end
+			
+			running_total = running_total + card_vals[current_card_index];
+			
+			// this will never run here but is template for how to add to score in the future
+			if (running_total > 21) begin
+				// if busting with an unlowered ace
+				if (unlowered_aces > 0) begin
+					running_total = running_total - 10;
+					unlowered_aces = unlowered_aces - 1;
+				end else begin
+					state = 1;
+				end
+			end
 	end
 	
-	// state of 0 represents still deciding, 1 represents done deciding (await dealer), 2 is bust
-	assign state = reg_state;
+	always @ (posedge debounced_hit) begin
+		// get a random card from the list
+		current_card_index = $unsigned($random($time)) % 13;
+		current_card_val_reg = cards[current_card_index];
+		
+		// if card is an ace
+		if (current_card_index == 4'b0000) begin
+			unlowered_aces = unlowered_aces + 1;
+		end
+		
+		running_total = running_total + card_vals[current_card_index];
+		
+		// if potential bust
+		if (running_total > 21) begin
+			// if busting with an unlowered ace
+			if (unlowered_aces > 0) begin
+				running_total = running_total - 10;
+				unlowered_aces = unlowered_aces - 1;
+			// player turn ends (with a bust)
+			end else begin
+				state = 1;
+			end
+		end
+	end
+	
+	always @ (posedge debounced_stay) begin
+		state = 1;
+	end
+	
+	// state of 0 represents still deciding, 1 represents done deciding
+	assign player_state = state;
+	assign score = running_total;
+	assign current_card_val = current_card_val_reg;
 
 endmodule
