@@ -6,23 +6,28 @@ module Game (
   input wire stay
 	);
   
-	wire finished;
-	reg beginGame;
-	reg continueGame;
-	reg endGame;
-	reg gameCount;
+	wire player_finished;
+	reg beginGame = 1;
+  reg [31:0] wins = 0;
+  reg [31:0] pushes = 0;
+  reg [31:0] losses = 0;
   
+  // TODO: probably need to convert some of these to wires and `assign` them at the bottom of the module
 	reg [15:0] cards [12:0];
 	reg [3:0] card_vals [12:0];
 	reg [3:0] current_card_index;
 	reg [4:0] dealer_total = 0;
+	reg [4:0] player_total = 0;
 	reg [4:0] unlowered_aces = 0;
 	reg [15:0] current_card_val;
+	reg [15:0] player_card_val;
   
-  PlayerModule player1 (
-    .hit        (hit),
-    .stay       (stay),
-    .finished   (finished)
+  player_actions player1 (
+    .debounced_hit        (hit),
+    .debounced_stay       (stay),
+    .player_state   (finished),
+    .score(player_total),
+    .current_card_val(player_card_val)
   );
   
 	initial begin
@@ -58,6 +63,24 @@ module Game (
   always @ (clk_1Hz) begin
     if (beginGame) begin
       initialDealer();
+      beginGame = 0;
+      return;
+    end
+    
+    if (player_finished) begin
+      /* TODO */
+      
+      // NOTE: "end game" means set `beginGame` to 1
+      
+      // check if player busted and end game, incrementing `losses` before returning
+      
+      // proceed with dealer logic
+         // while `dealer_total` < 17, keep hitting
+         
+         // if dealer busts, end game and increment `wins` before returning
+         
+         // if not, check scores of both dealer and player. if even, end game and increment `pushes` before returning
+         // if not even, do the same thing but increment either `wins` or `losses` depending on who has the higher hand
     end
   end
   
