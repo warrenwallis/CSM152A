@@ -24,7 +24,7 @@ module player_actions(
 	// input player_num, // for multiple players in the future
 	output player_state,
 	output [4:0] score,
-	output [15:0] current_card_val
+	output [15:0] player_cards
     );
 	 
 	 reg state = 1'b0;
@@ -32,7 +32,7 @@ module player_actions(
 	 reg [3:0] card_vals [12:0];
 	 reg [4:0] running_total = 0;
 	 reg [3:0] current_card_index;
-	 reg [15:0] current_card_val_reg;
+	reg [15:0] current_card_val_reg = 16'b1111111111111111;
 	 reg [4:0] unlowered_aces = 0;
 
 	// logic here
@@ -67,7 +67,7 @@ module player_actions(
 			
 			// get a random card from the list
 			current_card_index = $unsigned($random($time)) % 13;
-			current_card_val_reg = cards[current_card_index];
+		current_card_val_reg = { currect_card_val_reg[11:0], cards[current_card_index] }; 
 			
 			// if card is an ace
 			if (current_card_index == 4'b0000) begin
@@ -91,7 +91,7 @@ module player_actions(
 			
 			// get a random card from the list
 			current_card_index = $unsigned($random($time)) % 13;
-			current_card_val_reg = cards[current_card_index];
+			current_card_val_reg = { currect_card_val_reg[11:0], cards[current_card_index] }; 
 			
 			// if card is an ace
 			if (current_card_index == 4'b0000) begin
@@ -124,7 +124,7 @@ module player_actions(
 	
 		// get a random card from the list
 		current_card_index = $unsigned($random($time)) % 13;
-		current_card_val_reg = cards[current_card_index];
+		current_card_val_reg = { currect_card_val_reg[11:0], cards[current_card_index] }; 
 		
 		// if card is an ace
 		if (current_card_index == 4'b0000) begin
