@@ -5,6 +5,7 @@ module Game (
   input wire hit,
   input wire stay
 	);
+	
   
 	wire player_finished;
 	reg state = 0;
