@@ -87,7 +87,7 @@ module Game (
 				while (dealer_total < 17) begin
 					// get a random card from the list
 					current_card_index = $unsigned($random($time)) % 13;
-					current_card_val = cards[current_card_index];
+					dealer_cards = { dealer_cards[11:0], cards[current_card_index] };
 
 					// if card is an ace
 					if (current_card_index == 4'b0000) begin
