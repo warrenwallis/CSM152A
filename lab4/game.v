@@ -82,14 +82,22 @@ module Game (
          
          // if not, check scores of both dealer and player. if even, end game and increment `pushes` before returning
          // if not even, do the same thing but increment either `wins` or `losses` depending on who has the higher hand
-			if (player_total > dealer_total) begin
-				wins += 1;
-			end
-			else if (player_total < dealer_total) begin
+			if (player_total > 21) begin
 				losses += 1;
 			end
 			else begin
-				pushes += 1;
+				
+				// add dealer stuff here
+				
+				if (player_total > dealer_total) begin
+					wins += 1;
+				end
+				else if (player_total < dealer_total) begin
+					losses += 1;
+				end
+				else begin
+					pushes += 1;
+				end
 			end
 			
 			state = 0;
