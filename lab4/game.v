@@ -1,21 +1,20 @@
 module Game (
-  input wire clk_200Hz,
-  input wire clk_1Hz,
-  input wire clk_25mHz,
-  input wire hit,
-  input wire stay,
-	input wire btnS,
-	input wire btnR
-	input reg sw;
-	output reg [4:0] out;
+  	input wire clk_200Hz,
+  	input wire clk_1Hz,
+  	input wire clk_25mHz,
+  	input wire hit,
+  	input wire stay,
+  	input wire player_sel,
+    output [4:0] points_out,
+    output [3:0] card_out
 	);
 	
   
 	wire player_finished;
 	reg state = 0;
-  reg [31:0] wins = 0;
-  reg [31:0] pushes = 0;
-  reg [31:0] losses = 0;
+    reg [31:0] wins = 0;
+    reg [31:0] pushes = 0;
+    reg [31:0] losses = 0;
   
   // TODO: probably need to convert some of these to wires and `assign` them at the bottom of the module
 	reg [15:0] cards [12:0];
@@ -27,13 +26,13 @@ module Game (
 	reg [15:0] current_card_val;
 	reg [15:0] player_card_val;
   
-  player_actions player1 (
-    .debounced_hit        (hit),
-    .debounced_stay       (stay),
-		.player_state   (player_finished),
-    .score(player_total),
-    .current_card_val(player_card_val)
-  );
+    player_actions player1 (
+        .debounced_hit(hit),
+        .debounced_stay(stay),
+        .player_state(player_finished),
+        .score(player_total),
+        .current_card_val(player_card_val)
+    );
 	
 	initial begin
 			cards[0] = "A";
@@ -65,33 +64,17 @@ module Game (
 			card_vals[12] = 10;
 	end
   
-  always @ (clk_1Hz) begin
-		if (sw == 0) begin // show dealer
-			out = dealer_total;
-		end
-		else begin
-			out = player_total;
-		end
-		if (state == 0) begin
-      initialDealer();
-      state = 1;
-      return;
-    end
+    assign points_out = (player_sel == 1) ? dealer_total : player_total;
+    
+    always @ (clk_1Hz) begin
+        if (state == 0) begin
+            initialDealer();
+            state = 1;
+            return;
+        end
     
 		if (player_finished && state == 1) begin
-      /* TODO */
-      
-      // NOTE: "end game" means set `state` to 1
-      
-      // check if player busted and end game, incrementing `losses` before returning
-      
-      // proceed with dealer logic
-         // while `dealer_total` < 17, keep hitting
-         
-         // if dealer busts, end game and increment `wins` before returning
-         
-         // if not, check scores of both dealer and player. if even, end game and increment `pushes` before returning
-         // if not even, do the same thing but increment either `wins` or `losses` depending on who has the higher hand
+            
 			if (player_total > 21) begin
 				losses += 1;
 			end
