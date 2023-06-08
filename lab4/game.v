@@ -36,19 +36,20 @@ module Game (
     );
 	
 	initial begin
-			cards[0] = "A";
-			cards[1] = "2";
-			cards[2] = "3";
-			cards[3] = "4";
-			cards[4] = "5";
-			cards[5] = "6";
-			cards[6] = "7";
-			cards[7] = "8";
-			cards[8] = "9";
-			cards[9] = "10";
-			cards[10] = "J";
-			cards[11] = "Q";
-			cards[12] = "K";
+			cards[0] = 4'd0;
+			cards[1] = 4'd1;
+			cards[2] = 4'd2;
+			cards[3] =  4'd3;
+			cards[4] = 4'd4;
+			cards[5] = 4'd5;
+			cards[6] = 4'd6;
+			cards[7] = 4'd7;
+			cards[8] = 4'd8;
+			cards[9] = 4'd9;
+			cards[10] = 4'd0;
+			cards[11] = 4'd0;
+			cards[12] = 4'd0;
+		
 			
 			card_vals[0] = 11;
 			card_vals[1] = 2;
