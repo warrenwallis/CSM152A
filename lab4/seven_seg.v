@@ -19,6 +19,7 @@ module seven_seg(
             4'd11: seven_seg = 8'b10000110; // makes E
             4'd12: seven_seg = 8'b11000001; // makes U
             4'd13: seven_seg = 8'b11001000; // makes N
+            4'd14: seven_seg = 8'b10001000; // makes A
             default: seven_seg = 8'b11111111;
         endcase
     end
