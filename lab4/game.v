@@ -6,7 +6,7 @@ module Game (
   	input wire stay,
   	input wire player_sel,
     output [4:0] points_out,
-    output [3:0] card_out
+	output [15:0] card_out,
 	);
 	
   
@@ -14,7 +14,8 @@ module Game (
 	reg state = 0;
     reg [31:0] wins = 0;
     reg [31:0] pushes = 0;
-    reg [31:0] losses = 0;
+	reg [31:0] losses = 0;
+	reg [15:0] dealer_cards = 16'b1111111111111111;
   
   // TODO: probably need to convert some of these to wires and `assign` them at the bottom of the module
 	reg [15:0] cards [12:0];
@@ -24,14 +25,14 @@ module Game (
 	reg [4:0] player_total = 0;
 	reg [4:0] unlowered_aces = 0;
 	reg [15:0] current_card_val;
-	reg [15:0] player_card_val;
+	wire [15:0] player_card;
   
     player_actions player1 (
         .debounced_hit(hit),
         .debounced_stay(stay),
         .player_state(player_finished),
         .score(player_total),
-        .current_card_val(player_card_val)
+		.player_cards (player_cards)
     );
 	
 	initial begin
@@ -65,6 +66,7 @@ module Game (
 	end
   
     assign points_out = (player_sel == 1) ? dealer_total : player_total;
+	assign card_out = (player_sel == 1) ? dealer_cards : player_cards;
     
     always @ (clk_1Hz) begin
         if (state == 0) begin
@@ -129,7 +131,7 @@ module Game (
 		dealer_total = 0;
 		// get a random card from the list
 		current_card_index = $unsigned($random($time)) % 13;
-		current_card_val = cards[current_card_index];
+		dealer_cards = { dealer_cards[11:0], cards[current_card_index]};
 					
 		// if card is an ace
 		if (current_card_index == 4'b0000) begin
