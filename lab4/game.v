@@ -7,7 +7,7 @@ module Game (
 	);
   
 	wire player_finished;
-	reg beginGame = 1;
+	reg state = 0;
   reg [31:0] wins = 0;
   reg [31:0] pushes = 0;
   reg [31:0] losses = 0;
@@ -61,16 +61,16 @@ module Game (
 	end
   
   always @ (clk_1Hz) begin
-    if (beginGame) begin
+		if (state == 0) begin
       initialDealer();
-      beginGame = 0;
+      state = 1;
       return;
     end
     
-    if (player_finished) begin
+		if (player_finished && state == 1) begin
       /* TODO */
       
-      // NOTE: "end game" means set `beginGame` to 1
+      // NOTE: "end game" means set `state` to 1
       
       // check if player busted and end game, incrementing `losses` before returning
       
@@ -81,7 +81,18 @@ module Game (
          
          // if not, check scores of both dealer and player. if even, end game and increment `pushes` before returning
          // if not even, do the same thing but increment either `wins` or `losses` depending on who has the higher hand
-    end
+			if (player_total > dealer_total) begin
+				wins += 1;
+			end
+			else if (player_total < dealer_total) begin
+				losses += 1;
+			end
+			else begin
+				pushes += 1;
+			end
+			
+			state = 0;
+		end
   end
   
   task initialDealer;
