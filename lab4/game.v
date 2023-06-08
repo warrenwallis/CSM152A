@@ -6,12 +6,12 @@ module Game (
   input wire stay,
 	input wire btnS,
 	input wire btnR
+	input reg sw;
+	output reg [4:0] out;
 	);
 	
   
 	wire player_finished;
-	wire seg;
-	wire an;
 	reg state = 0;
   reg [31:0] wins = 0;
   reg [31:0] pushes = 0;
@@ -35,15 +35,6 @@ module Game (
     .current_card_val(player_card_val)
   );
 	
-	sevenseg_top sst (
-		.clk			(clk_25mHz),
-		.btnS			(debounced_btnS),
-		.btnR			(debounced_btnR),
-		.sw				(),
-		.seg			(seg),
-		.an				(an)
-	);
-  
 	initial begin
 			cards[0] = "A";
 			cards[1] = "2";
@@ -75,6 +66,12 @@ module Game (
 	end
   
   always @ (clk_1Hz) begin
+		if (sw == 0) begin // show dealer
+			out = dealer_total;
+		end
+		else begin
+			out = player_total;
+		end
 		if (state == 0) begin
       initialDealer();
       state = 1;
