@@ -3,11 +3,15 @@ module Game (
   input wire clk_1Hz,
   input wire clk_25mHz,
   input wire hit,
-  input wire stay
+  input wire stay,
+	input wire btnS,
+	input wire btnR
 	);
 	
   
 	wire player_finished;
+	wire seg;
+	wire an;
 	reg state = 0;
   reg [31:0] wins = 0;
   reg [31:0] pushes = 0;
@@ -26,10 +30,19 @@ module Game (
   player_actions player1 (
     .debounced_hit        (hit),
     .debounced_stay       (stay),
-    .player_state   (finished),
+		.player_state   (player_finished),
     .score(player_total),
     .current_card_val(player_card_val)
   );
+	
+	sevenseg_top sst (
+		.clk			(clk_25mHz),
+		.btnS			(debounced_btnS),
+		.btnR			(debounced_btnR),
+		.sw				(),
+		.seg			(seg),
+		.an				(an)
+	);
   
 	initial begin
 			cards[0] = "A";
