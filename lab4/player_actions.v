@@ -158,6 +158,6 @@ module player_actions(
 	// state of 0 represents still deciding, 1 represents done deciding
 	assign player_state = state;
 	assign score = running_total;
-	assign current_card_val = current_card_val_reg;
+	assign player_cards = current_card_val_reg;
 
 endmodule
