@@ -88,6 +88,33 @@ module Game (
 			else begin
 				
 				// add dealer stuff here
+				while (dealer_total < 17) begin
+					// get a random card from the list
+					current_card_index = $unsigned($random($time)) % 13;
+					current_card_val = cards[current_card_index];
+
+					// if card is an ace
+					if (current_card_index == 4'b0000) begin
+						unlowered_aces = unlowered_aces + 1;
+					end
+
+					dealer_total = dealer_total + card_vals[current_card_index];
+
+					// if potential bust
+					if (dealer_total > 21) begin
+						// if busting with an unlowered ace
+						if (unlowered_aces > 0) begin
+							dealer_total = dealer_total - 10;
+							unlowered_aces = unlowered_aces - 1;
+						// dealer turn ends (with a bust)
+						end else begin
+							wins += 1;
+							state = 0;
+							return;
+						end
+					end
+			
+				end
 				
 				if (player_total > dealer_total) begin
 					wins += 1;
