@@ -1,0 +1,89 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date:    15:51:57 06/07/2023 
+// Design Name: 
+// Module Name:    seven-seg-top 
+// Project Name: 
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
+module sevenseg_top(
+    input clk,
+    input btnS,
+    input btnR,
+    input btn1,
+    input [1:0] sw,
+    output reg [7:0] seg,
+    output reg [3:0] an
+    );
+
+    wire hit, stay, rst, display_clk;
+    
+    debouncer debounce_hit(clk, btnS, hit);
+    debouncer debounce_stay(clk, btnS, stay);
+    debouncer debounce_rst(clk, btnR, rst);
+    clk_divider clock_divider(clk, rst, display_clk);
+    
+    reg[15:0] cards = 16'b1111111111111111;
+    
+    localparam anode1 = 4'b0111;
+    localparam anode2 = 4'b1011;
+    localparam anode3 = 4'b1101;
+    localparam anode4 = 4'b1110;
+    
+    //temp card to simulate game
+    localparam card = 4'b1110; 
+    
+    wire [7:0] card1_seg, card2_seg, card3_seg, card4_seg;
+        
+    seven_seg card1(cards[15:12], card1_seg);
+    seven_seg card2(cards[11:8], card2_seg);
+    seven_seg card3(cards[7:4], card3_seg);
+    seven_seg card4(cards[3:0], card4_seg);
+    
+    always @ (posedge hit) begin
+        cards <= {cards[11:0], card}; // inserts the last card into the hand
+    end
+
+    reg[1:0] anode = 0;
+    
+    always @ (posedge display_clk) begin
+    
+        if (anode == 0) begin
+            an <= anode1;
+            seg <= card1_seg;
+            anode <= anode + 1;
+        end
+        else if (anode == 1) begin
+            an <= anode2;
+            seg <= card2_seg;
+            anode <= anode + 1;
+        end
+        else if (anode == 2) begin
+            an <= anode3;
+            seg <= card3_seg;
+            anode <= anode + 1;
+        end
+        else begin
+            an <= anode4;
+            seg <= card4_seg;
+            anode <= 0;
+        end
+    end
+    
+//    winlose(result, display_clk, segment, anode);
+//    assign seg = segment;
+//    assign an = anode;
+
+endmodule
