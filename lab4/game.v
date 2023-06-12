@@ -1,12 +1,10 @@
 module Game (
-  	input wire clk_200Hz,
-  	input wire clk_1Hz,
-  	input wire clk_25mHz,
+  	input wire clk,
   	input wire hit,
   	input wire stay,
   	input wire player_sel,
     output [4:0] points_out,
-	output [15:0] card_out,
+	output [15:0] card_out
 	);
 	
   
@@ -22,10 +20,10 @@ module Game (
 	reg [3:0] card_vals [12:0];
 	reg [3:0] current_card_index;
 	reg [4:0] dealer_total = 0;
-	reg [4:0] player_total = 0;
+	wire [4:0] player_total;
 	reg [4:0] unlowered_aces = 0;
 	reg [15:0] current_card_val;
-	wire [15:0] player_card;
+	wire [15:0] player_cards;
   
     player_actions player1 (
         .debounced_hit(hit),
@@ -69,17 +67,16 @@ module Game (
     assign points_out = (player_sel == 1) ? dealer_total : player_total;
 	assign card_out = (player_sel == 1) ? dealer_cards : player_cards;
     
-    always @ (clk_1Hz) begin
+    always @ (clk) begin
         if (state == 0) begin
             initialDealer();
             state = 1;
-            return;
         end
     
 		if (player_finished && state == 1) begin
             
 			if (player_total > 21) begin
-				losses += 1;
+				losses = losses + 1;
 			end
 			else begin
 				
@@ -104,22 +101,21 @@ module Game (
 							unlowered_aces = unlowered_aces - 1;
 						// dealer turn ends (with a bust)
 						end else begin
-							wins += 1;
+							wins = wins + 1;
 							state = 0;
-							return;
 						end
 					end
 			
 				end
 				
 				if (player_total > dealer_total) begin
-					wins += 1;
+					wins = wins + 1;
 				end
 				else if (player_total < dealer_total) begin
-					losses += 1;
+					losses = losses + 1;
 				end
 				else begin
-					pushes += 1;
+					pushes = pushes + 1;
 				end
 			end
 			

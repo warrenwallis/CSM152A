@@ -27,13 +27,13 @@ module player_actions(
 	output [15:0] player_cards
     );
 	 
-	 reg state = 1'b0;
-	 reg [15:0] cards [12:0];
-	 reg [3:0] card_vals [12:0];
-	 reg [4:0] running_total = 0;
-	 reg [3:0] current_card_index;
+	reg state = 1'b0;
+	reg [15:0] cards [12:0];
+	reg [3:0] card_vals [12:0];
+	reg [4:0] running_total = 0;
+	reg [3:0] current_card_index;
 	reg [15:0] current_card_val_reg = 16'b1111111111111111;
-	 reg [4:0] unlowered_aces = 0;
+	reg [4:0] unlowered_aces = 0;
 
 	// logic here
 	initial begin
@@ -67,7 +67,7 @@ module player_actions(
 			
 			// get a random card from the list
 			current_card_index = $unsigned($random($time)) % 13;
-		current_card_val_reg = { currect_card_val_reg[11:0], cards[current_card_index] }; 
+			current_card_val_reg = { current_card_val_reg[11:0], cards[current_card_index] }; 
 			
 			// if card is an ace
 			if (current_card_index == 4'b0000) begin
@@ -91,7 +91,7 @@ module player_actions(
 			
 			// get a random card from the list
 			current_card_index = $unsigned($random($time)) % 13;
-			current_card_val_reg = { currect_card_val_reg[11:0], cards[current_card_index] }; 
+			current_card_val_reg = { current_card_val_reg[11:0], cards[current_card_index] }; 
 			
 			// if card is an ace
 			if (current_card_index == 4'b0000) begin
@@ -119,35 +119,36 @@ module player_actions(
 	always @ (posedge debounced_hit) begin
 		// do nothing if turn is over
 		if (state == 1) begin
-			return;
+			;
 		end
-	
-		// get a random card from the list
-		current_card_index = $unsigned($random($time)) % 13;
-		current_card_val_reg = { currect_card_val_reg[11:0], cards[current_card_index] }; 
-		
-		// if card is an ace
-		if (current_card_index == 4'b0000) begin
-			unlowered_aces = unlowered_aces + 1;
-		end
-		
-		running_total = running_total + card_vals[current_card_index];
-		
-		// if potential bust
-		if (running_total > 21) begin
-			// if busting with an unlowered ace
-			if (unlowered_aces > 0) begin
-				running_total = running_total - 10;
-				unlowered_aces = unlowered_aces - 1;
-			// player turn ends (with a bust)
-			end else begin
+		else begin
+			// get a random card from the list
+			current_card_index = $unsigned($random($time)) % 13;
+			current_card_val_reg = { current_card_val_reg[11:0], cards[current_card_index] }; 
+			
+			// if card is an ace
+			if (current_card_index == 4'b0000) begin
+				unlowered_aces = unlowered_aces + 1;
+			end
+			
+			running_total = running_total + card_vals[current_card_index];
+			
+			// if potential bust
+			if (running_total > 21) begin
+				// if busting with an unlowered ace
+				if (unlowered_aces > 0) begin
+					running_total = running_total - 10;
+					unlowered_aces = unlowered_aces - 1;
+				// player turn ends (with a bust)
+				end else begin
+					state = 1;
+				end
+			end
+			
+			// finish if reached 21
+			if (running_total == 21) begin
 				state = 1;
 			end
-		end
-		
-		// finish if reached 21
-		if (running_total == 21) begin
-			state = 1;
 		end
 	end
 	
